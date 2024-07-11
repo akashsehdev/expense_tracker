@@ -7,7 +7,6 @@ class DatabaseHelper {
   final databaseName = "auth.db";
 
   //tables
-
   //Don't put comma at the end of a column in sqlite
   String user = '''
   CREATE TABLE users(

@@ -16,7 +16,7 @@ class UiProvider extends ChangeNotifier {
   //we need to do it using provider state management
 
   toggleCheck() {
-    _isChecked = !isChecked;
+    _isChecked = !_isChecked;
     notifyListeners();
   }
 
@@ -28,14 +28,13 @@ class UiProvider extends ChangeNotifier {
 
     //We store the value in secure storage to be remembered
     storage.setBool("rememberMe", _rememberMe);
-
     notifyListeners();
   }
 
   //Set rememberMe value to false
   logout(context) async {
-    _rememberMe = false;
     final SharedPreferences storage = await SharedPreferences.getInstance();
+    _rememberMe = false;
     storage.setBool("rememberMe", _rememberMe);
     Navigator.pushReplacement(
         context,
@@ -48,10 +47,8 @@ class UiProvider extends ChangeNotifier {
 
   //Init secure storage
   initStorage() async {
-    // final SharedPreferences pref =
+    // final SharedPreferences prefs = await SharedPreferences.getInstance();
     final SharedPreferences storage = await SharedPreferences.getInstance();
-
-    // storage = await SharedPreferences.getInstance();
     _rememberMe = storage.getBool("rememberMe") ?? false;
     notifyListeners();
   }
