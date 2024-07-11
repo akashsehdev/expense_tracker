@@ -43,6 +43,27 @@ class DatabaseHelper {
     }
   }
 
+  // Get user details by userName
+  Future<Users?> getUserByUsername(String userName) async {
+    final Database db = await initDB();
+    var res =
+        await db.query("users", where: "userName = ?", whereArgs: [userName]);
+    return res.isNotEmpty ? Users.fromMap(res.first) : null;
+  }
+
+  // Get user details by userId
+  Future<Users?> getUserById(int userId) async {
+    final Database db = await initDB();
+    var res = await db.query("users", where: "userId = ?", whereArgs: [userId]);
+    return res.isNotEmpty ? Users.fromMap(res.first) : null;
+  }
+
+  //Delete user by userID
+  Future<int> deleteUser(int userId) async {
+    final Database db = await initDB();
+    return db.delete("users", where: "userId = ?", whereArgs: [userId]);
+  }
+
   //Sign up
   Future<int> createUser(Users usr) async {
     final Database db = await initDB();

@@ -20,7 +20,7 @@ class textWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       title,
-      style: GoogleFonts.montserrat(
+      style: GoogleFonts.poppins(
         color: color,
         fontSize: fontSize,
         fontWeight: fontWeight,

@@ -38,6 +38,7 @@ class _SignupScreenState extends State<SignupScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: backgroundColor,
       body: SafeArea(
           child: Center(
         child: ListView(
@@ -54,7 +55,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     padding: const EdgeInsets.symmetric(horizontal: 20.0),
                     child: textWidget(
                       title: "Register New Account",
-                      color: primaryColor,
+                      color: ActiveColor,
                       fontSize: 40,
                       fontWeight: FontWeight.bold,
                     ),
@@ -129,7 +130,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         },
                         child: textWidget(
                           title: "LOGIN",
-                          color: primaryColor,
+                          color: ActiveColor,
                           fontSize: 14,
                           fontWeight: FontWeight.w600,
                         ),

@@ -48,7 +48,6 @@ import 'data/provider/provider_.dart';
 import 'data/services/db_expense_provider.dart';
 import 'presentation/views/home_expense_list.dart';
 import 'presentation/views/auth.dart';
-import 'presentation/views/home.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

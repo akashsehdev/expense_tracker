@@ -135,6 +135,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/expense.dart';
+import '../models/user.dart';
 
 class DatabaseProvider with ChangeNotifier {
   static final DatabaseProvider _instance = DatabaseProvider._internal();
@@ -219,6 +220,21 @@ class DatabaseProvider with ChangeNotifier {
       key,
       expenses.map((e) => jsonEncode(e.toMap())).toList(),
     );
+  }
+
+  Future<Users?> getUser(int userId) async {
+    final db = await database;
+    final List<Map<String, dynamic>> maps = await db.query(
+      'users',
+      where: 'id = ?',
+      whereArgs: [userId],
+    );
+
+    if (maps.isNotEmpty) {
+      return Users.fromMap(maps.first);
+    } else {
+      return null;
+    }
   }
 
   Future<List<Expense>> getExpenses(int userId) async {

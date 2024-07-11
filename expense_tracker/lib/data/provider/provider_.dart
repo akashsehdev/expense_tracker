@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../presentation/views/login.dart';
+import '../models/user.dart';
 
 class UiProvider extends ChangeNotifier {
   bool _isChecked = false;
@@ -44,6 +45,9 @@ class UiProvider extends ChangeNotifier {
 
     notifyListeners();
   }
+
+
+
 
   //Init secure storage
   initStorage() async {
