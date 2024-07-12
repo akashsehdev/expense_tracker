@@ -1,18 +1,34 @@
+import 'package:flutter/material.dart';
 import 'package:expense_tracker/presentation/components/TextWidget.dart';
 import 'package:expense_tracker/presentation/components/colors.dart';
 import 'package:expense_tracker/presentation/screens/auth.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../data/services/noti_feature.dart';
 import '../../domain/models/user.dart';
 import '../../domain/provider/provider_.dart';
 import '../../data/services/db_helper.dart';
 import '../components/btn.dart';
 
-class Profile extends StatelessWidget {
+class Profile extends StatefulWidget {
   final Users? profile;
 
-  const Profile({super.key, this.profile});
+  const Profile({Key? key, this.profile}) : super(key: key);
+
+  @override
+  _ProfileState createState() => _ProfileState();
+}
+
+class _ProfileState extends State<Profile> {
+  TimeOfDay _selectedTime =
+      TimeOfDay(hour: 8, minute: 0); // Default reminder time
+
+  @override
+  void initState() {
+    super.initState();
+    NotificationService.initialize(context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +50,7 @@ class Profile extends StatelessWidget {
         child: SafeArea(
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 45, horizontal: 25),
-            child: profile != null
+            child: widget.profile != null
                 ? Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
@@ -42,21 +58,19 @@ class Profile extends StatelessWidget {
                         height: 10,
                       ),
                       textWidget(
-                        title: profile!.fullName.toString(),
+                        title: widget.profile!.fullName.toString(),
                         fontSize: 35,
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                       ),
                       textWidget(
-                        title: profile!.email.toString(),
+                        title: widget.profile!.email.toString(),
                         fontSize: 17,
                         color: Colors.grey,
                       ),
-
                       SizedBox(
                         height: 20,
                       ),
-
                       // Name, email and username
                       Container(
                         decoration: BoxDecoration(
@@ -70,7 +84,7 @@ class Profile extends StatelessWidget {
                                 size: 30,
                               ),
                               title: textWidget(
-                                title: profile!.fullName.toString(),
+                                title: widget.profile!.fullName.toString(),
                                 color: Colors.white,
                               ),
                               subtitle: Text("Full Name"),
@@ -81,7 +95,7 @@ class Profile extends StatelessWidget {
                                 size: 30,
                               ),
                               title: textWidget(
-                                title: profile!.email.toString(),
+                                title: widget.profile!.email.toString(),
                                 color: Colors.white,
                               ),
                               subtitle: Text("Email"),
@@ -92,7 +106,7 @@ class Profile extends StatelessWidget {
                                 size: 30,
                               ),
                               title: textWidget(
-                                title: profile!.userName.toString(),
+                                title: widget.profile!.userName.toString(),
                                 color: Colors.white,
                               ),
                               subtitle: Text("Username"),
@@ -100,11 +114,17 @@ class Profile extends StatelessWidget {
                           ],
                         ),
                       ),
-
                       SizedBox(
                         height: 10,
                       ),
-
+                      // Set Daily Reminder Time Button
+                      Btn(
+                          label: 'Set Daily Reminder Time',
+                          press: _pickReminderTime,
+                          txtColor: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          backgroundColor: bgColor),
+                      SizedBox(height: 20),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -121,7 +141,6 @@ class Profile extends StatelessWidget {
                               );
                             },
                           ),
-                          SizedBox(),
                           Btn(
                             label: "DELETE ACCOUNT",
                             press: () {
@@ -172,7 +191,7 @@ class Profile extends StatelessWidget {
           TextButton(
             child: textWidget(title: 'Delete'),
             onPressed: () async {
-              if (profile != null) {
+              if (widget.profile != null) {
                 await _deleteAccount(context);
               }
             },
@@ -184,12 +203,26 @@ class Profile extends StatelessWidget {
 
   Future<void> _deleteAccount(BuildContext context) async {
     final db = DatabaseHelper();
-    await db.deleteUser(profile!.userId!);
+    await db.deleteUser(widget.profile!.userId!);
     Navigator.of(context).pop(); // Close the dialog
     Navigator.of(context).pushAndRemoveUntil(
       MaterialPageRoute(builder: (context) => const AuthScreen()),
       (Route<dynamic> route) => false,
     );
   }
-}
 
+  Future<void> _pickReminderTime() async {
+    final TimeOfDay? pickedTime = await showTimePicker(
+      context: context,
+      initialTime: _selectedTime,
+    );
+
+    if (pickedTime != null) {
+      setState(() {
+        _selectedTime = pickedTime;
+      });
+      // Schedule daily notification based on selected time
+      NotificationService.showDailyNotification(context, _selectedTime);
+    }
+  }
+}

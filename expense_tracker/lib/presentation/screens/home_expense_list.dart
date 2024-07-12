@@ -59,7 +59,6 @@ class _ExpenseListState extends State<ExpenseList> {
           ),
         ],
       ),
-      
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -234,7 +233,6 @@ class _ExpenseListState extends State<ExpenseList> {
                                       });
                                     },
                                   ),
-
                                   Row(
                                     children: [
                                       Btn(
@@ -267,8 +265,6 @@ class _ExpenseListState extends State<ExpenseList> {
                                           icon: Icon(Icons.clear_rounded)),
                                     ],
                                   ),
-
-                                  
                                 ],
                               ),
                             ),

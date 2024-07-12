@@ -181,9 +181,11 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: DropdownButtonFormField<String>(
+                      dropdownColor: bgColor,
                       value: _type,
                       items: [
                         DropdownMenuItem(
+                          
                           child: textWidget(title: 'Expense'),
                           value: 'expense',
                         ),
