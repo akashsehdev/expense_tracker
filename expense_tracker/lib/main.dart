@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:path/path.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'data/services/noti_feature.dart';
@@ -8,13 +7,15 @@ import 'domain/provider/provider_.dart';
 import 'data/services/db_expense_provider.dart';
 import 'presentation/screens/home_expense_list.dart';
 import 'presentation/screens/auth.dart';
+import 'package:timezone/data/latest.dart' as tzdata;
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  NotiFeature().initNotification();
+  tzdata.initializeTimeZones();
   runApp(MyApp());
 }
 
