@@ -1,12 +1,11 @@
 import 'package:expense_tracker/presentation/components/TextWidget.dart';
 import 'package:expense_tracker/presentation/components/colors.dart';
-import 'package:expense_tracker/presentation/views/auth.dart';
-import 'package:expense_tracker/presentation/views/signup.dart';
+import 'package:expense_tracker/presentation/screens/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../../data/models/user.dart';
-import '../../data/provider/provider_.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../../domain/models/user.dart';
+import '../../domain/provider/provider_.dart';
 import '../../data/services/db_helper.dart';
 import '../components/btn.dart';
 
@@ -39,13 +38,6 @@ class Profile extends StatelessWidget {
                 ? Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      // const CircleAvatar(
-                      //   radius: 57,
-                      //   // child: CircleAvatar(
-                      //   //   backgroundImage: AssetImage(""),
-                      //   //   radius: 55,
-                      //   // ),
-                      // ),
                       const SizedBox(
                         height: 10,
                       ),
@@ -61,25 +53,10 @@ class Profile extends StatelessWidget {
                         color: Colors.grey,
                       ),
 
-                      // button
-                      // Btn(
-                      //   label: "SIGN UP",
-                      //   press: () {
-                      //     Navigator.push(
-                      //       context,
-                      //       MaterialPageRoute(
-                      //         builder: (context) => const SignupScreen(),
-                      //       ),
-                      //     );
-                      //   },
-                      //   txtColor: Colors.white,
-                      //   fontSize: 20,
-                      //   fontWeight: FontWeight.bold,
-                      //   backgroundColor: primaryColor,
-                      // ),
                       SizedBox(
                         height: 20,
                       ),
+
                       // Name, email and username
                       Container(
                         decoration: BoxDecoration(
@@ -174,18 +151,26 @@ class Profile extends StatelessWidget {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Delete Account'),
-        content: Text(
-            'Are you sure you want to delete your account? This action cannot be undone.'),
+        backgroundColor: backgroundColor,
+        title: textWidget(
+          title: 'Delete Account',
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+        ),
+        content: textWidget(
+          title:
+              'Are you sure you want to delete your account? This action cannot be undone.',
+          color: Colors.white,
+        ),
         actions: [
           TextButton(
-            child: Text('Cancel'),
+            child: textWidget(title: 'Cancel'),
             onPressed: () {
               Navigator.of(context).pop();
             },
           ),
           TextButton(
-            child: Text('Delete'),
+            child: textWidget(title: 'Delete'),
             onPressed: () async {
               if (profile != null) {
                 await _deleteAccount(context);
@@ -207,3 +192,4 @@ class Profile extends StatelessWidget {
     );
   }
 }
+

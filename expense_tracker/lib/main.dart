@@ -1,56 +1,18 @@
-// import 'package:flutter/material.dart';
-// import 'package:provider/provider.dart';
-// import 'data/provider/provider_.dart';
-// import 'data/services/db_expense_provider.dart';
-// import 'presentation/views/home_expense_list.dart';
-// import 'presentation/views/auth.dart';
-// import 'presentation/views/home.dart';
-
-// void main() {
-//   WidgetsFlutterBinding.ensureInitialized();
-//   DatabaseProvider();
-//   runApp(MyApp());
-// }
-
-// class MyApp extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return MultiProvider(
-//       providers: [
-//         ChangeNotifierProvider(
-//             create: (context) => UiProvider()..initStorage()),
-//         ChangeNotifierProvider(create: (context) => DatabaseProvider()),
-//       ],
-//       // create: (context) => UiProvider()..initStorage(),
-//       child:
-//           Consumer<UiProvider>(builder: (context, UiProvider notifier, child) {
-//         return MaterialApp(
-//           theme: ThemeData(
-//             colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-//             useMaterial3: true,
-//           ),
-//           debugShowCheckedModeBanner: false,
-//           //First Page
-//           //if rememberMe is true goto home else authscreen
-//           home: notifier.rememberMe ? ExpenseList(userId: userD,) : const AuthScreen(),
-//           // home: ExpenseList(),
-//           // home: AddExpenseScreen(),
-//         );
-//       }),
-//     );
-//   }
-// }
-
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'data/provider/provider_.dart';
+import 'domain/provider/provider_.dart';
 import 'data/services/db_expense_provider.dart';
-import 'presentation/views/home_expense_list.dart';
-import 'presentation/views/auth.dart';
+import 'presentation/screens/home_expense_list.dart';
+import 'presentation/screens/auth.dart';
 
-void main() {
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
+
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   runApp(MyApp());
 }
 
