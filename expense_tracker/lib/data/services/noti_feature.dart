@@ -128,23 +128,26 @@ class NotiFeature {
         id, title, body, await notificationsDetails());
   }
 
-  Future scheduleDailyNotification({
-    int id = 0,
-    String? title,
-    String? body,
-    String? payload,
-    required DateTime scheduleNotificationDateTime,
-  }) async {
-    return notificationsPlugin.zonedSchedule(
-      id,
-      title,
-      body,
-      tz.TZDateTime.from(scheduleNotificationDateTime, tz.local),
-      await notificationsDetails(),
-      // androidAllowWhileIdle: true,
-      uiLocalNotificationDateInterpretation:
-          UILocalNotificationDateInterpretation.absoluteTime,
-    );
+  Future<void> scheduleDailyNotificationWithTime(
+      String title, String body) async {
+    await notificationsPlugin.periodicallyShow(
+        0,
+        title,
+        body,
+        RepeatInterval.daily,
+        NotificationDetails(
+          android: AndroidNotificationDetails(
+            'channel id',
+            'channel name',
+            // 'channel description',
+            importance: Importance.max,
+            priority: Priority.high,
+          ),
+        ));
+  }
+
+  Future<void> stopDailyNotificationWithTime() async {
+    notificationsPlugin.cancel(0);
   }
 
   Future<void> scheduleNotification({

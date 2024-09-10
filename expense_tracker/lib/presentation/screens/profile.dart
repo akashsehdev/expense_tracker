@@ -303,7 +303,7 @@ class _ProfileState extends State<Profile> {
       body: SingleChildScrollView(
         child: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 45, horizontal: 25),
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 25),
             child: widget.profile != null
                 ? Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -372,16 +372,46 @@ class _ProfileState extends State<Profile> {
                         height: 10,
                       ),
                       // Set Daily Reminder Time Button
+                      // Btn(
+                      //   label: 'Push notification only',
+                      //   press: () {
+                      //     NotiFeature().showNotification();
+                      //   },
+                      //   txtColor: Colors.black,
+                      //   fontWeight: FontWeight.bold,
+                      //   backgroundColor: bgColor,
+                      // ),
+                      Column(
+                        children: [
+                          Center(
+                            child: Btn(
+                              label: 'Set Daily Notification',
+                              press: () {
+                                NotiFeature().scheduleDailyNotificationWithTime(
+                                  "Scheduled Notification",
+                                  "Don't forget to add your expenses",
+                                );
+                              },
+                              txtColor: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              backgroundColor: bgColor,
+                            ),
+                          ),
+                          Btn(
+                            label: 'Stop Daily Notification',
+                            press: () {
+                              NotiFeature().stopDailyNotificationWithTime();
+                            },
+                            txtColor: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            backgroundColor: Colors.red,
+                          ),
+                        ],
+                      ),
                       Btn(
-                        label: 'Set Daily Reminder Time',
+                        label: 'Set Daily Reminder with Date & Time',
                         press: () {
                           _pickReminderDateTime();
-                          // NotiFeature().scheduleNotification(
-                          //   id: 0,
-                          //   title: "It's time to add your expenses",
-                          //   body: "Don't forget to add your expenses today!",
-                          //   scheduleNotificationDateTime: _selectedDateTime,
-                          // );
                         },
                         txtColor: Colors.black,
                         fontWeight: FontWeight.bold,
@@ -532,7 +562,7 @@ class _ProfileState extends State<Profile> {
     // Schedule notification logic here
     NotiFeature().scheduleNotification(
       id: 0,
-      title: "It's time to add your expenses",
+      title: "Reminder with date and time",
       body: "Don't forget to add your expenses today!",
       scheduleNotificationDateTime: _selectedDateTime,
     );
