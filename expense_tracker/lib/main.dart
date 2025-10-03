@@ -28,9 +28,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => UiProvider()..initStorage(),
         ),
-        ChangeNotifierProvider(
-          create: (context) => DatabaseProvider(),
-        ),
+        ChangeNotifierProvider(create: (context) => DatabaseProvider()),
       ],
       child: Consumer<UiProvider>(
         builder: (context, UiProvider notifier, child) {
@@ -41,24 +39,26 @@ class MyApp extends StatelessWidget {
             ),
             debugShowCheckedModeBanner: false,
             // Determine initial screen based on rememberMe flag
-            home: notifier.rememberMe
-                ? FutureBuilder<int?>(
-                    future:
-                        getUserIdFromStorage(), // Example method to fetch userId
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return CircularProgressIndicator();
-                      } else if (snapshot.hasError) {
-                        return Center(child: Text('Error fetching userId'));
-                      } else {
-                        int? userId = snapshot.data;
-                        return userId != null
-                            ? ExpenseList(userId: userId)
-                            : AuthScreen(); // Navigate to AuthScreen if userId is null
-                      }
-                    },
-                  )
-                : AuthScreen(),
+            home:
+                notifier.rememberMe
+                    ? FutureBuilder<int?>(
+                      future:
+                          getUserIdFromStorage(), // Example method to fetch userId
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return CircularProgressIndicator();
+                        } else if (snapshot.hasError) {
+                          return Center(child: Text('Error fetching userId'));
+                        } else {
+                          int? userId = snapshot.data;
+                          return userId != null
+                              ? ExpenseList(userId: userId)
+                              : AuthScreen(); // Navigate to AuthScreen if userId is null
+                        }
+                      },
+                    )
+                    : AuthScreen(),
           );
         },
       ),
