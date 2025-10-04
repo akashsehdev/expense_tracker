@@ -1,0 +1,2 @@
+/Users/akashsehdev/Downloads/expense_tracker/expense_tracker/android/app/.cxx/Debug/6z6w1o5v/x86/CMakeFiles/edit_cache.dir
+/Users/akashsehdev/Downloads/expense_tracker/expense_tracker/android/app/.cxx/Debug/6z6w1o5v/x86/CMakeFiles/rebuild_cache.dir
